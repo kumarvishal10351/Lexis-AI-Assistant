@@ -1,0 +1,54 @@
+[client]
+# Enable wide layout for better space usage
+showErrorDetails = true
+maxUploadSize = 200
+toolbarMode = "minimal"
+
+[server]
+# Server configuration
+port = 8501
+headless = true
+enableXsrfProtection = true
+enableCORS = false
+maxUploadSize = 200
+
+# Run in minimal mode for faster startup
+runOnSave = true
+
+# Better security for production
+headerVisibility = "collapsed"
+
+[logger]
+# Logging configuration
+level = "info"
+
+# Optional: Set timezone
+# timezone = "UTC"
+
+[theme]
+# Theme configuration (light/dark)
+primaryColor = "#7c6af7"
+backgroundColor = "#080d1a"
+secondaryBackgroundColor = "#0d1425"
+textColor = "#eae6dc"
+font = "sans serif"
+
+[browser]
+# Browser configuration
+gatherUsageStats = true
+serverAddress = "localhost"
+
+[cache]
+# Cache configuration
+maxEntries = 1000
+expireAfterSeconds = 86400
+
+[deprecation]
+# Show deprecation warnings
+showPyplotGlobalUse = false
+showfileRerunButton = false
+showImageCompression = false
+
+# Development configurations (set to false in production)
+showErrorDetails = false
+showtracebackCallback = false

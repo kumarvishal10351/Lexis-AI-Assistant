@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  lexis:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lexis-ai-assistant
+    ports:
+      - "8501:8501"
+    environment:
+      # Required: Add your Mistral API key
+      MISTRAL_API_KEY: ${MISTRAL_API_KEY}
+      
+      # Optional: Streamlit configuration
+      STREAMLIT_SERVER_HEADLESS: "true"
+      STREAMLIT_LOGGER_LEVEL: "info"
+      STREAMLIT_CLIENT_MAXUPLOADSIZE: "200"
+      
+      # Optional: Application settings
+      PYTHONUNBUFFERED: "1"
+    
+    volumes:
+      # Persist data across restarts
+      - lexis_data:/app/data
+      - lexis_chroma:/app/chroma_db
+      
+      # Optional: Mount source code for development
+      # - ./lexis_improved.py:/app/lexis_improved.py
+    
+    # Restart policy
+    restart: unless-stopped
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    # Resource limits (optional, adjust to your hardware)
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '2'
+    #       memory: 2G
+    #     reservations:
+    #       cpus: '1'
+    #       memory: 1G
+    
+    # Logging configuration (optional)
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  # Data volume for persistence
+  lexis_data:
+    driver: local
+  
+  # ChromaDB vector store volume
+  lexis_chroma:
+    driver: local
+
+# Optional: Network configuration
+networks:
+  default:
+    name: lexis-network
+    driver: bridge
+
+# Quick commands:
+# Start: docker-compose up -d
+# Stop: docker-compose down
+# View logs: docker-compose logs -f lexis
+# Rebuild: docker-compose up -d --build
+# Remove volumes: docker-compose down -v
+# Shell: docker-compose exec lexis bash

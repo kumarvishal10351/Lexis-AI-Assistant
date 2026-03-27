@@ -1,0 +1,19 @@
+# Virtual environments
+venv/
+.venv/
+
+# Environment variables
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Database
+chroma_db/
+
+# Data (optional)
+data/
+
+# Logs
+*.log
